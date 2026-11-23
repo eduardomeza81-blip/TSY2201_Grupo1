@@ -1,0 +1,32 @@
+
+<div class="dashboard-container">
+
+  <header class="dashboard-header">
+    <div class="brand">
+      <span class="logo">🐾</span>
+      <h1>VetCloud</h1>
+    </div>
+
+    <button
+      type="button"
+      class="logout-button"
+      (click)="logout()">
+      Cerrar sesión
+    </button>
+  </header>
+
+  <main class="dashboard-content">
+    <div class="welcome-card">
+      <h2>Bienvenido a VetCloud</h2>
+
+      <p class="username">
+        Usuario: {{ userName }}
+      </p>
+
+      <p>
+        Plataforma de Gestión Veterinaria
+      </p>
+    </div>
+  </main>
+
+</div>

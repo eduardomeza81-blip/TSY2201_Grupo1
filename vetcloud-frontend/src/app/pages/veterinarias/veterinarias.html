@@ -1,0 +1,194 @@
+
+<section class="veterinarias-container">
+
+  <h1>Administración de Veterinarias</h1>
+
+  <p>
+    Gestión de veterinarias registradas en VetCloud SaaS.
+  </p>
+
+  <div class="acciones">
+    <button
+      type="button"
+      (click)="abrirFormulario()"
+      [disabled]="guardando">
+      Nueva veterinaria
+    </button>
+  </div>
+
+  <!-- Mensaje de éxito -->
+  <p *ngIf="mensajeExito" class="mensaje-exito">
+    {{ mensajeExito }}
+  </p>
+
+  <!-- Formulario para registrar o editar -->
+  <div *ngIf="mostrarFormulario" class="formulario">
+
+    <h2>
+      {{
+        idVeterinariaEditando !== null
+          ? 'Editar veterinaria'
+          : 'Registrar nueva veterinaria'
+      }}
+    </h2>
+
+    <form (ngSubmit)="guardarVeterinaria()">
+
+      <label for="nombre">Nombre *</label>
+      <input
+        id="nombre"
+        name="nombre"
+        type="text"
+        [(ngModel)]="nuevaVeterinaria.nombre"
+        [disabled]="guardando"
+        required>
+
+      <label for="rut">RUT</label>
+      <input
+        id="rut"
+        name="rut"
+        type="text"
+        [(ngModel)]="nuevaVeterinaria.rut"
+        [disabled]="guardando">
+
+      <label for="direccion">Dirección</label>
+      <input
+        id="direccion"
+        name="direccion"
+        type="text"
+        [(ngModel)]="nuevaVeterinaria.direccion"
+        [disabled]="guardando">
+
+      <label for="telefono">Teléfono</label>
+      <input
+        id="telefono"
+        name="telefono"
+        type="tel"
+        [(ngModel)]="nuevaVeterinaria.telefono"
+        [disabled]="guardando">
+
+      <label for="email">Correo electrónico</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        [(ngModel)]="nuevaVeterinaria.email"
+        [disabled]="guardando">
+
+      <!-- Mensajes de error -->
+      <p *ngIf="errorFormulario" class="mensaje-error">
+        {{ errorFormulario }}
+      </p>
+
+      <div class="acciones-formulario">
+
+        <button
+          type="button"
+          (click)="cancelarFormulario()"
+          [disabled]="guardando">
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          [disabled]="guardando || !nuevaVeterinaria.nombre.trim()">
+          {{
+            guardando
+              ? 'Guardando...'
+              : idVeterinariaEditando !== null
+                ? 'Actualizar veterinaria'
+                : 'Guardar veterinaria'
+          }}
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <h2>Veterinarias registradas</h2>
+
+  <p *ngIf="cargando">
+    Cargando veterinarias...
+  </p>
+
+  <p *ngIf="error" class="mensaje-error">
+    {{ error }}
+  </p>
+
+  <table
+    *ngIf="!cargando && !error && veterinarias.length > 0">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>RUT</th>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let veterinaria of veterinarias">
+
+        <td>{{ veterinaria.idVeterinaria }}</td>
+        <td>{{ veterinaria.rut }}</td>
+        <td>{{ veterinaria.nombre }}</td>
+        <td>{{ veterinaria.direccion }}</td>
+        <td>{{ veterinaria.email }}</td>
+        <td>{{ veterinaria.telefono }}</td>
+
+        <td>
+          <span
+            [class.activa]="veterinaria.activa === 1"
+            [class.inactiva]="veterinaria.activa !== 1">
+            {{
+              veterinaria.activa === 1
+                ? 'Activa'
+                : 'Inactiva'
+            }}
+          </span>
+        </td>
+
+        <td>
+          <!-- Editar veterinaria -->
+          <button
+            type="button"
+            (click)="editarVeterinaria(veterinaria)"
+            [disabled]="guardando || cambiandoEstadoId !== null">
+            Editar
+          </button>
+
+          <!-- Activar o desactivar veterinaria -->
+          <button
+            type="button"
+            (click)="cambiarEstadoVeterinaria(veterinaria)"
+            [disabled]="guardando || cambiandoEstadoId !== null">
+
+            {{
+              cambiandoEstadoId === veterinaria.idVeterinaria
+                ? 'Procesando...'
+                : veterinaria.activa === 1
+                  ? 'Desactivar'
+                  : 'Activar'
+            }}
+
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+
+  <p
+    *ngIf="!cargando && !error && veterinarias.length === 0">
+    No hay veterinarias registradas.
+  </p>
+
+</section>

@@ -1,0 +1,209 @@
+
+<section class="usuarios-container">
+
+  <h1>Administración de Usuarios</h1>
+
+  <p>Gestión de usuarios y roles de VetCloud SaaS.</p>
+
+  <div class="acciones">
+    <button
+      type="button"
+      (click)="abrirFormulario()"
+      [disabled]="guardando || cambiandoEstadoId !== null">
+      Nuevo usuario
+    </button>
+  </div>
+
+  <p *ngIf="mensajeExito" class="mensaje-exito">
+    {{ mensajeExito }}
+  </p>
+
+  <!-- Formulario de registro y edición -->
+  <div *ngIf="mostrarFormulario" class="formulario">
+
+    <h2>
+      {{
+        idUsuarioEditando !== null
+          ? 'Editar usuario'
+          : 'Registrar nuevo usuario'
+      }}
+    </h2>
+
+    <form (ngSubmit)="guardarUsuario()">
+
+      <label for="nombre">Nombre *</label>
+      <input
+        id="nombre"
+        name="nombre"
+        type="text"
+        [(ngModel)]="datosUsuario.nombre"
+        [disabled]="guardando"
+        required>
+
+      <label for="email">Correo electrónico *</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        [(ngModel)]="datosUsuario.email"
+        [disabled]="guardando"
+        required>
+
+      <label for="rol">Rol *</label>
+      <select
+        id="rol"
+        name="rol"
+        [(ngModel)]="datosUsuario.idRol"
+        [disabled]="guardando"
+        required>
+
+        <option [ngValue]="0">Seleccione un rol</option>
+
+        <option
+          *ngFor="let rol of roles"
+          [ngValue]="rol.idRol">
+          {{ rol.nombre }}
+        </option>
+
+      </select>
+
+      <label for="veterinaria">Veterinaria</label>
+      <select
+        id="veterinaria"
+        name="veterinaria"
+        [(ngModel)]="datosUsuario.idVeterinaria"
+        [disabled]="guardando">
+
+        <option [ngValue]="null">
+          Sin veterinaria asignada
+        </option>
+
+        <option
+          *ngFor="let veterinaria of veterinarias"
+          [ngValue]="veterinaria.idVeterinaria">
+          {{ veterinaria.nombre }}
+        </option>
+
+      </select>
+
+      <p class="nota">
+        Los usuarios de clínica deben tener una veterinaria
+        asignada. El superadministrador puede administrar
+        la plataforma sin pertenecer a una clínica.
+      </p>
+
+      <p *ngIf="errorFormulario" class="mensaje-error">
+        {{ errorFormulario }}
+      </p>
+
+      <div class="acciones-formulario">
+
+        <button
+          type="button"
+          (click)="cancelarFormulario()"
+          [disabled]="guardando">
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          [disabled]="guardando">
+          {{
+            guardando
+              ? 'Guardando...'
+              : idUsuarioEditando !== null
+                ? 'Actualizar usuario'
+                : 'Guardar usuario'
+          }}
+        </button>
+
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Listado -->
+  <h2>Usuarios registrados</h2>
+
+  <p *ngIf="cargando">Cargando usuarios...</p>
+
+  <p *ngIf="error" class="mensaje-error">
+    {{ error }}
+  </p>
+
+  <div class="tabla-contenedor">
+    <table
+      *ngIf="!cargando && !error && usuarios.length > 0">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Veterinaria</th>
+          <th>Entra B2C</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+
+          <td>{{ usuario.idUsuario }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.nombreRol }}</td>
+
+          <td>
+            {{ usuario.nombreVeterinaria || 'Sin asignar' }}
+          </td>
+
+          <td>
+            {{ usuario.vinculadoEntra ? 'Vinculado' : 'Pendiente' }}
+          </td>
+
+          <td>
+            <span
+              [class.activa]="usuario.activo === 1"
+              [class.inactiva]="usuario.activo !== 1">
+              {{ usuario.activo === 1 ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+
+          <td>
+            <button
+              type="button"
+              (click)="editarUsuario(usuario)"
+              [disabled]="guardando || cambiandoEstadoId !== null">
+              Editar
+            </button>
+
+            <button
+              type="button"
+              *ngIf="usuario.codigoRol !== 'SUPERADMIN'"
+              (click)="cambiarEstadoUsuario(usuario)"
+              [disabled]="guardando || cambiandoEstadoId !== null">
+              {{
+                cambiandoEstadoId === usuario.idUsuario
+                  ? 'Procesando...'
+                  : usuario.activo === 1
+                    ? 'Desactivar'
+                    : 'Activar'
+              }}
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+  <p
+    *ngIf="!cargando && !error && usuarios.length === 0">
+    No hay usuarios registrados.
+  </p>
+
+</section>

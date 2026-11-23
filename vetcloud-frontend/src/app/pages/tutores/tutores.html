@@ -1,0 +1,198 @@
+
+<section class="tutores-container">
+
+  <h1>Administración de Tutores</h1>
+
+  <p>Gestión de propietarios de mascotas de VetCloud SaaS.</p>
+
+  <!-- Seleccionar veterinaria -->
+  <div class="selector-veterinaria">
+    <label for="veterinaria">Seleccionar veterinaria</label>
+
+    <select
+      id="veterinaria"
+      name="veterinaria"
+      [(ngModel)]="idVeterinariaSeleccionada"
+      (ngModelChange)="cambiarVeterinaria()"
+      [disabled]="guardando || cargando">
+
+      <option [ngValue]="null">
+        Seleccione una veterinaria
+      </option>
+
+      <option
+        *ngFor="let veterinaria of veterinarias"
+        [ngValue]="veterinaria.idVeterinaria">
+        {{ veterinaria.nombre }}
+      </option>
+
+    </select>
+  </div>
+
+  <!-- Acciones -->
+  <div class="acciones">
+    <button
+      type="button"
+      (click)="abrirFormulario()"
+      [disabled]="
+        idVeterinariaSeleccionada === null ||
+        guardando ||
+        cargando
+      ">
+      Nuevo tutor
+    </button>
+  </div>
+
+  <p *ngIf="mensajeExito" class="mensaje-exito">
+    {{ mensajeExito }}
+  </p>
+
+  <!-- Formulario -->
+  <div *ngIf="mostrarFormulario" class="formulario">
+
+    <h2>
+      {{
+        idTutorEditando !== null
+          ? 'Editar tutor'
+          : 'Registrar nuevo tutor'
+      }}
+    </h2>
+
+    <form (ngSubmit)="guardarTutor()">
+
+      <label for="nombre">Nombre *</label>
+      <input
+        id="nombre"
+        name="nombre"
+        type="text"
+        [(ngModel)]="datosTutor.nombre"
+        [disabled]="guardando"
+        required>
+
+      <label for="rut">RUT</label>
+      <input
+        id="rut"
+        name="rut"
+        type="text"
+        [(ngModel)]="datosTutor.rut"
+        [disabled]="guardando">
+
+      <label for="telefono">Teléfono</label>
+      <input
+        id="telefono"
+        name="telefono"
+        type="text"
+        [(ngModel)]="datosTutor.telefono"
+        [disabled]="guardando">
+
+      <label for="email">Correo electrónico</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        [(ngModel)]="datosTutor.email"
+        [disabled]="guardando">
+
+      <label for="direccion">Dirección</label>
+      <input
+        id="direccion"
+        name="direccion"
+        type="text"
+        [(ngModel)]="datosTutor.direccion"
+        [disabled]="guardando">
+
+      <p *ngIf="errorFormulario" class="mensaje-error">
+        {{ errorFormulario }}
+      </p>
+
+      <div class="acciones-formulario">
+
+        <button
+          type="button"
+          (click)="cancelarFormulario()"
+          [disabled]="guardando">
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          [disabled]="guardando">
+          {{
+            guardando
+              ? 'Guardando...'
+              : idTutorEditando !== null
+                ? 'Actualizar tutor'
+                : 'Guardar tutor'
+          }}
+        </button>
+
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Listado -->
+  <h2>Tutores registrados</h2>
+
+  <p *ngIf="cargando">
+    Cargando tutores...
+  </p>
+
+  <p *ngIf="error" class="mensaje-error">
+    {{ error }}
+  </p>
+
+  <div class="tabla-contenedor">
+
+    <table
+      *ngIf="!cargando && !error && tutores.length > 0">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>RUT</th>
+          <th>Teléfono</th>
+          <th>Correo</th>
+          <th>Dirección</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let tutor of tutores">
+
+          <td>{{ tutor.idTutor }}</td>
+          <td>{{ tutor.nombre }}</td>
+          <td>{{ tutor.rut || 'Sin registrar' }}</td>
+          <td>{{ tutor.telefono || 'Sin registrar' }}</td>
+          <td>{{ tutor.email || 'Sin registrar' }}</td>
+          <td>{{ tutor.direccion || 'Sin registrar' }}</td>
+
+          <td>
+            <button
+              type="button"
+              (click)="editarTutor(tutor)"
+              [disabled]="guardando">
+              Editar
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <p
+    *ngIf="
+      !cargando &&
+      !error &&
+      idVeterinariaSeleccionada !== null &&
+      tutores.length === 0
+    ">
+    No hay tutores registrados para esta veterinaria.
+  </p>
+
+</section>

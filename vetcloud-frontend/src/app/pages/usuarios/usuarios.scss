@@ -1,0 +1,131 @@
+
+.usuarios-container {
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  color: #263238;
+
+  h1 {
+    color: #087873;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    margin-top: 30px;
+    margin-bottom: 18px;
+  }
+
+  .acciones {
+    margin: 24px 0;
+  }
+
+  button {
+    padding: 9px 15px;
+    margin-right: 6px;
+    border: 1px solid #087873;
+    border-radius: 5px;
+    background-color: #087873;
+    color: white;
+    cursor: pointer;
+  }
+
+  button:hover:not(:disabled) {
+    background-color: #065e5a;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .formulario {
+    max-width: 550px;
+    padding: 24px;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+
+    h2 {
+      margin-top: 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      padding: 11px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .nota {
+      color: #666;
+      font-size: 13px;
+    }
+
+    .acciones-formulario {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+  }
+
+  .tabla-contenedor {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    min-width: 950px;
+  }
+
+  th {
+    background-color: #006b68;
+    color: white;
+    padding: 13px;
+    text-align: left;
+  }
+
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  tbody tr:hover {
+    background-color: #f2f8f7;
+  }
+
+  .activa {
+    color: green;
+    font-weight: bold;
+  }
+
+  .inactiva {
+    color: #c62828;
+    font-weight: bold;
+  }
+
+  .mensaje-exito {
+    color: #167b35;
+    font-weight: bold;
+  }
+
+  .mensaje-error {
+    color: #c62828;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,147 @@
+
+.tutores-container {
+  padding: 40px;
+  font-family: Arial, sans-serif;
+  color: #263238;
+
+  h1 {
+    color: #007d79;
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}
+
+.selector-veterinaria {
+  margin-top: 30px;
+  margin-bottom: 25px;
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  select {
+    width: 100%;
+    max-width: 450px;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background: white;
+  }
+}
+
+.acciones {
+  margin-bottom: 25px;
+}
+
+button {
+  background-color: #007d79;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 15px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background-color: #005f5b;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.formulario {
+  max-width: 650px;
+  background-color: #f5f9f9;
+  padding: 25px;
+  border: 1px solid #dce8e8;
+  border-radius: 8px;
+  margin-bottom: 30px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input {
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 15px;
+  }
+}
+
+.acciones-formulario {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+
+  th {
+    background-color: #006b68;
+    color: white;
+    padding: 15px;
+    text-align: left;
+  }
+
+  td {
+    padding: 15px;
+    border-bottom: 1px solid #dddddd;
+  }
+
+  tbody tr:hover {
+    background-color: #eef6f5;
+  }
+}
+
+.mensaje-exito {
+  color: green;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.mensaje-error {
+  color: #d32f2f;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+  .tutores-container {
+    padding: 20px;
+  }
+
+  table {
+    min-width: 850px;
+  }
+}
